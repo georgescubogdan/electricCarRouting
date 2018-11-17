@@ -11,11 +11,11 @@
     align-items: center;
     justify-content: center;
     width: 200px;
-    background: var(--lightAmazonOrange);
+    background-image: linear-gradient(to right,#F7971E, #FFD200);
   }
 
   .example-content {
-    background: var(--darkAmazonOrange);
+    background: wheat;
   }
   
   .example-header {
