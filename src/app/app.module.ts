@@ -7,13 +7,14 @@ import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material';
 import { MaterialModule } from './material/material.module';
 import { HomeComponent } from './home/home.component';
-
 import { HttpClientModule }    from '@angular/common/http';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { LoginComponent } from './login/login.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { HistoryComponent } from './history/history.component';
+import { HistoryNavComponent } from './history-nav/history-nav.component';
 import { RoutesComponent } from './routes/routes.component';
 @NgModule({
   declarations: [
@@ -21,6 +22,8 @@ import { RoutesComponent } from './routes/routes.component';
     HomeComponent,
     LoginComponent,
     SideNavComponent,
+    HistoryComponent,
+    HistoryNavComponent
     RoutesComponent
   ],
   imports: [

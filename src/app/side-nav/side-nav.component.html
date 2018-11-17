@@ -1,34 +1,52 @@
-<ng-container>
-  
-    <!-- <mat-toolbar class="example-header">Header</mat-toolbar> -->
-  
-
-  <mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
-    <div align="center">
-      <img src="assets/logo.ico" width="40%">
-      <p class="gold-text">Gold Road</p>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <div align="center" style="position: absolute; top: 5%; left: 3%;">
+      <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
     </div>
-    <div fxFlex>
-        <div fxFlex fxFlexAlign="center"
-          class="autocomplete-container">
-          <mat-google-maps-autocomplete [appearance]="appearance.OUTLINE"
-            [addressLabelText]="GOD"
-            country="ro"
-            (onAutocompleteSelected)="onAutocompleteSelected($event)"
-            (onLocationSelected)="onLocationSelected($event)">
-          </mat-google-maps-autocomplete>
+    <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
+    <br>
+    <br>
+    <br>
+    <br>
+    <div fxFlex id="first">
+      <div id="fmm" fxFlex fxFlexAlign="center">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelectedFirst($event)">
+        </mat-google-maps-autocomplete>
         </div>
-      </div>
-    <div class="example-search">
-      <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="searh()">Search</button>
-    </div>
-  </mat-sidenav>
-  
-  <mat-sidenav-content class="example-content">Main content</mat-sidenav-content>
-  
-  </mat-sidenav-container>
-  <mat-toolbar class="example-footer">
-    <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="signOut()">Sign out</button>
-  </mat-toolbar>
-  </ng-container>
+        </div>
+        <div fxFlex id="second">
+          <div id="second" fxFlex fxFlexAlign="center">
+            <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelected($event, false)">
+            </mat-google-maps-autocomplete>
+          </div>
+        </div>
+        <br>
+        
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Hours"></textarea>
+          </mat-form-field>
+        </form>
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Maximum hops"></textarea>
+          </mat-form-field>
+        </form>
+        <div align=center>
+          <button mat-button color="primary" style="background-color: var(--darkBlue);" (click)="search()">Search</button>
+          <br>
+          <br>
+          <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="save()">Save</button>
+          <br>
+          <br>
+          <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="goHistory()">History</button>
+        </div>
+        </mat-drawer>
+        
+        <div class="example-sidenav-content">
+          <button type="button" mat-button (click)="drawer.toggle()">
+            Magic
+    </button>
+  </div>
+
+</mat-drawer-container>
