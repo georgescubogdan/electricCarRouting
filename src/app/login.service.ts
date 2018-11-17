@@ -12,6 +12,7 @@ export class LoginService {
     this.amplifyService.authStateChange$
     .subscribe(authState => {
       this.signedIn = authState.state === 'signedIn';
+      //console.log(this.signedIn);
       observer.next(this.signedIn);
       if (!authState.user) {
         this.user = null;
