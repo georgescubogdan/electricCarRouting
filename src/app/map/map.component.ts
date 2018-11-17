@@ -171,10 +171,12 @@ export class MapComponent implements OnInit {
     });
   }
   
+  //primeste array de latitude, longitude (nu stiu daca asta e ordinea)
   async getCharginStationsCloseToPoint(point: number[]) {
     return await this.http.get('https://api.openchargemap.io/v2/poi/?latitude=' + point[1] + '&longitude=' + point[0] + '&distance=300&maxresults=10').toPromise();
   }
   
+  //primeste array de array de coordonate => geojson
   async getRouteWithPoints(points) {
       let data = await this.http.get(this.assembleQueryURL(points)).toPromise();
       // Create a GeoJSON feature collection
@@ -191,6 +193,7 @@ export class MapComponent implements OnInit {
       return routeGeoJSON;
   }
   
+  //afiseaza punctele clicked
   pointsFromMap() {
     let points: any[] = [[this.truckLocation.lng, this.truckLocation.lat]];
     // Create an array of GeoJSON feature collections for each point
@@ -211,6 +214,7 @@ export class MapComponent implements OnInit {
     return points
   }
   
+  //pune un punct pe map
   async newDropoff(coords) {
     // Store the clicked point as a new GeoJSON feature with
     // two properties: `orderTime` and `key`
@@ -236,7 +240,7 @@ export class MapComponent implements OnInit {
         // Update the `route` source by getting the route source
         // and setting the data equal to routeGeoJSON
         var chunk = turf.lineChunk(routeGeoJSON, 300, {units: 'kilometers'});
-
+        //cauta statiile in jurul far endului (doar pt primul chunk)
         let stationsFarEnd:any = await this.getCharginStationsCloseToPoint(chunk.features[0].geometry['coordinates'][chunk.features[0].geometry['coordinates'].length - 1]);
 
         for (let i = 0; i < stationsFarEnd.length; i++) {
@@ -252,16 +256,24 @@ export class MapComponent implements OnInit {
         }
         // let routeGeoJSON2 = ;
         let possibleRoutes = [];
+        let maxLen = 0;
+        let maxCoordinates: any;
         for (let i = 0; i < stationsFarEnd.length ; i++) {
-          let geoJson = this.getRouteWithPoints([chunk.features[0].geometry['coordinates'][0], [stationsFarEnd[i]['AddressInfo']['Longitude'], stationsFarEnd[i]['AddressInfo']['Latitude']]]);
-          let len = turf.length(routeGeoJSON);
-          if (len < 500 && len > 250) {
+          let geoJson = await this.getRouteWithPoints([chunk.features[0].geometry['coordinates'][0], [stationsFarEnd[i]['AddressInfo']['Longitude'], stationsFarEnd[i]['AddressInfo']['Latitude']]]);
+          let len = turf.length(geoJson);
+          console.log(len);
+
+          if (len < 500 && len > 200 && len > maxLen) {
             console.log("DA BA PULA");
+            maxLen = len;
+            maxCoordinates = {lng: stationsFarEnd[i]['AddressInfo']['Longitude'], lat: stationsFarEnd[i]['AddressInfo']['Latitude']};
+            
           } else {
             console.log("Nu BA PULA");
             
           }
         }
+        this.newDropoff(maxCoordinates);
 
         
         this.mapService.map.getSource('route2').setData(routeGeoJSON);
