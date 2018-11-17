@@ -23,7 +23,7 @@ import { RoutesComponent } from './routes/routes.component';
     LoginComponent,
     SideNavComponent,
     HistoryComponent,
-    HistoryNavComponent
+    HistoryNavComponent,
     RoutesComponent
   ],
   imports: [
