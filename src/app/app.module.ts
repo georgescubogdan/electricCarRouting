@@ -8,18 +8,26 @@ import { MatIconModule } from '@angular/material';
 import { MaterialModule } from './material/material.module';
 import { HomeComponent } from './home/home.component';
 
+import { HttpClientModule }    from '@angular/common/http';
+import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
+import { LoginComponent } from './login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MatIconModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule,
+    AmplifyAngularModule
   ],
-  providers: [],
+  providers: [
+    AmplifyService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

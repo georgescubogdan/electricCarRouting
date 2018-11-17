@@ -1,0 +1,54 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "hackall2018-20181117133755-authRole",
+			"UnauthRoleArn": "arn:aws:iam::309575360242:role/hackall2018-20181117133755-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::309575360242:role/hackall2018-20181117133755-authRole",
+			"Region": "eu-central-1",
+			"DeploymentBucketName": "hackall2018-20181117133755-deployment",
+			"UnauthRoleName": "hackall2018-20181117133755-unauthRole",
+			"StackName": "hackall2018-20181117133755",
+			"StackId": "arn:aws:cloudformation:eu-central-1:309575360242:stack/hackall2018-20181117133755/3a0a45d0-ea5d-11e8-8a1c-503f2ad2e536"
+		}
+	},
+	"auth": {
+		"cognito15d495aa": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/hackall2018-20181117133755-deployment/amplify-cfn-templates/auth/cognito15d495aa-cloudformation-template.yml",
+				"logicalId": "authcognito15d495aa"
+			},
+			"lastPushTimeStamp": "2018-11-17T11:43:49.079Z",
+			"output": {
+				"AppClientSecret": "1iii23iptlqjlpg0qokb5rh6dlp33a17de97s1tt6gkk4l3asfvv",
+				"UserPoolId": "eu-central-1_azVcvbifI",
+				"AppClientIDWeb": "775pd3mu5o6iilj0lens6k70jn",
+				"AppClientID": "2hm1g56qv126gnftmmchmsrjp3",
+				"IdentityPoolId": "eu-central-1:21fd158e-4edf-405b-bf73-13aa548c6378",
+				"IdentityPoolName": "cognito15d495aa_identitypool_15d495aa",
+				"UserPoolName": "cognito15d495aa_userpool_15d495aa"
+			},
+			"lastPushDirHash": "8LewblACn/muZltVHDOWDB4la9c="
+		}
+	},
+	"storage": {
+		"dynamo142a8756": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/hackall2018-20181117133755-deployment/amplify-cfn-templates/storage/dynamo142a8756-cloudformation-template.json",
+				"logicalId": "storagedynamo142a8756"
+			},
+			"lastPushTimeStamp": "2018-11-17T11:43:49.079Z",
+			"output": {
+				"PartitionKeyName": "try",
+				"Region": "eu-central-1",
+				"Arn": "arn:aws:dynamodb:eu-central-1:309575360242:table/dynamo142a8756",
+				"PartitionKeyType": "S",
+				"Name": "dynamo142a8756"
+			},
+			"lastPushDirHash": "XDdKorNpnthGhct7Gj0Rr+2M7iw="
+		}
+	}
+}
