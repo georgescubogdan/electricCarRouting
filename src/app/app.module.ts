@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material';
 import { MaterialModule } from './material/material.module';
-
+import { HttpClientModule }    from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent
@@ -12,7 +12,8 @@ import { MaterialModule } from './material/material.module';
   imports: [
     BrowserModule,
     MatIconModule,
-    MaterialModule
+    MaterialModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
