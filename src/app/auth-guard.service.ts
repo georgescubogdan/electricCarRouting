@@ -28,7 +28,7 @@ export class AuthGuardService implements CanActivate {
       return this.amplifyService.authStateChange$
       .pipe( 
       map(user => !!user), 
-      tap( (loggedIn: boolean) => { if (!loggedIn) this.router.navigate(['/home']); } ) 
+      tap( (loggedIn: boolean) => { if (!loggedIn) this.router.navigate(['/home']); console.log(loggedIn) } ) 
       );
       
     }
