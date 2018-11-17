@@ -22,3 +22,19 @@
   background-color: var(--color-white);
   box-shadow: none !important;
 }
+
+.pac-logo:after{
+  content:"";
+  padding:1px 1px 1px 0;
+  height:18px;
+  box-sizing:border-box;
+  text-align:right;
+  display:block;
+  background-image:none !important;
+  background-position:right;
+  background-repeat:no-repeat;
+  background-size:120px 14px
+}
+.hdpi.pac-logo:after{
+  background-image: none !important;
+}
