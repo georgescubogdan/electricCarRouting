@@ -14,12 +14,14 @@ import { LoginComponent } from './login/login.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
+import { RoutesComponent } from './routes/routes.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    SideNavComponent
+    SideNavComponent,
+    RoutesComponent
   ],
   imports: [
     BrowserModule,
