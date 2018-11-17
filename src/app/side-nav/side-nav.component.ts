@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import PlaceResult = google.maps.places.PlaceResult;
 import {Location, Appearance} from '@angular-material-extensions/google-maps-autocomplete';
+import { AmplifyService } from 'aws-amplify-angular';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { LoginService } from '../login.service';
+
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
@@ -12,8 +16,14 @@ export class SideNavComponent implements OnInit {
   public latitude: number;
   public longitude: number;
   public selectedAddress: PlaceResult;
+  options: FormGroup;
 
-  constructor() {
+  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService ) {
+    this.options = fb.group({
+      bottom: 0,
+      fixed: false,
+      top: 0
+    });
   }
 
   ngOnInit() {
@@ -44,5 +54,10 @@ export class SideNavComponent implements OnInit {
     console.log('onLocationSelected: ', location);
     this.latitude = location.latitude;
     this.longitude = location.longitude;
+  }
+  signOut(){
+    this.amplifyService.auth().signOut();
+    this.loginService.signedIn = false;
+    this.loginService.user = null;
   }
 }

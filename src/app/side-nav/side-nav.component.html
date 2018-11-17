@@ -1,34 +1,34 @@
 <ng-container>
   
-  <!-- <mat-toolbar class="example-header">Header</mat-toolbar> -->
+    <!-- <mat-toolbar class="example-header">Header</mat-toolbar> -->
   
-  
-  <mat-sidenav-container class="example-container">
-    <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
-        
-  </mat-sidenav >
-  
-  <mat-sidenav-content class="example-content">Main content
-      <div fxFlex>
-                    <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
-                      <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
-                    </agm-map> -->
-                  </div>
-      
-                  <div fxFlex fxFlexAlign="center"
-                       class="autocomplete-container">
-                    <mat-google-maps-autocomplete [appearance]="appearance.OUTLINE"
-                                                  [addressLabelText]="GOD"
-                                                  country="ro"
-                                                    (onAutocompleteSelected)="onAutocompleteSelected($event)"
-                                                    (onLocationSelected)="onLocationSelected($event)">
-                    </mat-google-maps-autocomplete>
-                  </div>
-  </mat-sidenav-content>
-  
-</mat-sidenav-container>
 
-<mat-toolbar class="example-footer">
-  Sign Out
-</mat-toolbar>
-</ng-container>
+  <mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side" opened class="example-sidenav">
+    <div align="center">
+      <img src="assets/logo.ico" width="40%">
+      <p class="gold-text">Gold Road</p>
+    </div>
+    <div fxFlex>
+        <div fxFlex fxFlexAlign="center"
+          class="autocomplete-container">
+          <mat-google-maps-autocomplete [appearance]="appearance.OUTLINE"
+            [addressLabelText]="GOD"
+            country="ro"
+            (onAutocompleteSelected)="onAutocompleteSelected($event)"
+            (onLocationSelected)="onLocationSelected($event)">
+          </mat-google-maps-autocomplete>
+        </div>
+      </div>
+    <div class="example-search">
+      <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="searh()">Search</button>
+    </div>
+  </mat-sidenav>
+  
+  <mat-sidenav-content class="example-content">Main content</mat-sidenav-content>
+  
+  </mat-sidenav-container>
+  <mat-toolbar class="example-footer">
+    <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="signOut()">Sign out</button>
+  </mat-toolbar>
+  </ng-container>

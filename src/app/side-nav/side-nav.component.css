@@ -27,10 +27,20 @@
     z-index: 100;
   }
   
+  .example-search {
+    position: fixed;
+    bottom: 20%;
+    left: 63px;
+    right: 0;
+    color: black;
+    z-index: 100;
+  }
+
   .example-footer {
     position: fixed;
+    align-content: center;
     bottom: 0;
-    left: 0;
+    left: 45px;
     right: 0;
     color: black;
     z-index: 100;
@@ -44,3 +54,12 @@ agm-map {
   padding: 1rem 0 1rem 0;
   width: 50%;
 }
+  .gold-text  {
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    color: var(--darkBlue);
+    margin: 0;
+    padding: 0px 0px 6px 0px;
+    font-size: 40px;
+    line-height: 44px;
+    letter-spacing: -2px;
+    font-weight: bold; }
