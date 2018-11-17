@@ -1,5 +1,3 @@
-<ul>
-  <li *ngFor="let route of routes">
-    <a>{{ route.start }} - {{ route.end }}</a>
-  </li>
-</ul>
+<mat-nav-list>
+    <a mat-list-item href="..." *ngFor="let route of routes"> {{ route.start }} - {{ route.end }} </a>
+ </mat-nav-list>

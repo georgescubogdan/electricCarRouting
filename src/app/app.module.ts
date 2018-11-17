@@ -16,6 +16,8 @@ import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/go
 import { HistoryComponent } from './history/history.component';
 import { HistoryNavComponent } from './history-nav/history-nav.component';
 import { RoutesComponent } from './routes/routes.component';
+import { MapComponent } from './map/map.component';
+import { MapService } from './map.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +26,8 @@ import { RoutesComponent } from './routes/routes.component';
     SideNavComponent,
     HistoryComponent,
     HistoryNavComponent,
-    RoutesComponent
+    RoutesComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { RoutesComponent } from './routes/routes.component';
   }) 
   ],
   providers: [
-    AmplifyService
+    AmplifyService,
+    MapService,
   ],
   bootstrap: [AppComponent]
 })

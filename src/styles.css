@@ -40,3 +40,23 @@
 .hdpi.pac-logo:after{
   background-image: none !important;
 }
+
+
+
+.amplify-authenticator {
+  width: var(--component-width-desktop);
+  margin: 0 auto;
+  border-radius: 6px;
+  background-color: var(--color-white);
+  box-shadow: none !important;
+}
+
+.truck {
+  margin: -10px -10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #3887be;
+  pointer-events: none;
+}
