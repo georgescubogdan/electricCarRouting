@@ -1,7 +1,7 @@
 .example-container {
     position: absolute;
-    top: 60px;
-    bottom: 60px;
+    top: 0px;
+    bottom: 0px;
     left: 0;
     right: 0;
   }
@@ -12,6 +12,10 @@
     justify-content: center;
     width: 200px;
     background: var(--lightAmazonOrange);
+  }
+
+  .example-content {
+    background: var(--darkAmazonOrange);
   }
   
   .example-header {
