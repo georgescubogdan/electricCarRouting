@@ -8,22 +8,5 @@ import { AmplifyService } from 'aws-amplify-angular';
 })
 export class AppComponent {
   title = 'hackITall2018';
-  signedIn: boolean;
-  user: any;
-  greeting: string;
-
-  constructor( private amplifyService: AmplifyService ) {
-    this.amplifyService.authStateChange$
-        .subscribe(authState => {
-            this.signedIn = authState.state === 'signedIn';
-            if (!authState.user) {
-                this.user = null;
-            } else {
-                this.user = authState.user;
-                this.greeting = "Hello " + this.user.username;
-            }
-    });
-
-}
-  
+   
 }
