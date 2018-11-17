@@ -5,6 +5,7 @@ import { AmplifyService } from 'aws-amplify-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
+import { route } from '../classes';
 
 @Component({
   selector: 'app-side-nav',
@@ -20,7 +21,10 @@ export class SideNavComponent implements OnInit {
   options: FormGroup;
   firstCity: Location;
   secondCity: Location;
+  home: boolean = true;
 
+  events: string[] = [];
+  opened: boolean = true;
   constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router ) {
     this.options = fb.group({
       bottom: 0,
@@ -39,15 +43,30 @@ export class SideNavComponent implements OnInit {
 
   }
 
-  // private setCurrentPosition() {
-  //   if ('geolocation' in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       this.latitude = position.coords.latitude;
-  //       this.longitude = position.coords.longitude;
-  //       this.zoom = 12;
-  //     });
-  //   }
-  // }
+  routes : route[] = [
+    {
+      start: "Pitesti",
+      end: "Bucuresti",
+      path: ""
+    },
+    {
+      start: "Pitesti",
+      end: "Bucuresti",
+      path: ""
+    },
+    {
+      start: "Pitesti",
+      end: "Bucuresti",
+      path: ""
+    }
+]
+  goHome() {
+    this.home = true;
+  }
+
+  goHistory() {
+    this.home = false;
+  }
 
   onAddressSelected(result: PlaceResult) {
     console.log('onAddressSelected: ', result);
@@ -81,9 +100,7 @@ export class SideNavComponent implements OnInit {
     this.loginService.user = null;
   }
 
-  goHistory() {
-    this.router.navigate(['history']);
-  }
+  
 
   save() {
     
