@@ -1,0 +1,23 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <div align="center" style="position: absolute; top: 5%; left: 3%;">
+      <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
+    </div>
+    <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div align=center>
+      <button mat-button color="primary" style="background-color: var(--darkBlue);" (click)="goHome()">Home</button>
+    </div>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      Magic
+    </button>
+  </div>
+
+</mat-drawer-container>

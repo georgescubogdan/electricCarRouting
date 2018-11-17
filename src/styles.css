@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@aws-amplify/ui/src/Theme.css";
 @import "~@aws-amplify/ui/src/Angular.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 :root {
   --amazonOrange: #FF9900;
