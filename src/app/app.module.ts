@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
 import { HistoryComponent } from './history/history.component';
 import { HistoryNavComponent } from './history-nav/history-nav.component';
+import { RoutesComponent } from './routes/routes.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,6 +24,7 @@ import { HistoryNavComponent } from './history-nav/history-nav.component';
     SideNavComponent,
     HistoryComponent,
     HistoryNavComponent
+    RoutesComponent
   ],
   imports: [
     BrowserModule,
