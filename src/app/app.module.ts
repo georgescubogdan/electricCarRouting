@@ -11,11 +11,13 @@ import { HomeComponent } from './home/home.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { LoginComponent } from './login/login.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    MainNavComponent
   ],
   imports: [
     BrowserModule,
