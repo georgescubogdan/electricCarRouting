@@ -9,6 +9,17 @@
       <img src="assets/logo.ico" width="40%">
       <p class="gold-text">Gold Road</p>
     </div>
+    <div fxFlex>
+        <div fxFlex fxFlexAlign="center"
+          class="autocomplete-container">
+          <mat-google-maps-autocomplete [appearance]="appearance.OUTLINE"
+            [addressLabelText]="GOD"
+            country="ro"
+            (onAutocompleteSelected)="onAutocompleteSelected($event)"
+            (onLocationSelected)="onLocationSelected($event)">
+          </mat-google-maps-autocomplete>
+        </div>
+      </div>
     <div class="example-search">
       <button mat-button color="primary" style="background-color: var(--darkBlue)" (click)="searh()">Search</button>
     </div>

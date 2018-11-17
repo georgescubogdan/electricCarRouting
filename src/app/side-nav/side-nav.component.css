@@ -46,6 +46,14 @@
     z-index: 100;
   }
 
+agm-map {
+  height: 400px;
+}
+
+.autocomplete-container {
+  padding: 1rem 0 1rem 0;
+  width: 50%;
+}
   .gold-text  {
     font-family: times, Times New Roman, times-roman, georgia, serif;
     color: var(--darkBlue);
