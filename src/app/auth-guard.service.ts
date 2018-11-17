@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AmplifyService } from 'aws-amplify-angular';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,13 @@ export class AuthGuardService implements CanActivate {
         } else {
           this.user = authState.user;
         }
+       
       });
-      return !!this.user;
+      return this.amplifyService.authStateChange$
+      .pipe( 
+      map(user => !!user), 
+      tap( (loggedIn: boolean) => { if (!loggedIn) this.router.navigate(['/home']); } ) 
+      );
+      
     }
   }
