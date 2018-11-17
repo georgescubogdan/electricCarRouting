@@ -1,21 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@aws-amplify/ui/src/Theme.css";
 @import "~@aws-amplify/ui/src/Angular.css";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+:root {
+  --amazonOrange: #FF9900;
+  --lightAmazonOrange: #FFAC31;
+  --darkAmazonOrange: #E88B01;
+  --squidInk: #232F3E;
+  --lightSquidInk: #31465F;
+  --deepSquidInk: #152939;
+  --grey: #828282;
+  --lightGrey: #C4C4C4;
+  --silver: #E1E4EA;
+  --darkBlue: #31465F;
+  --red: #DD3F5B;
+  --white: #FFFFFF;
+}
+.amplify-authenticator {
+  width: var(--component-width-desktop);
+  margin: 0 auto;
+  border-radius: 6px;
+  background-color: var(--color-white);
+  box-shadow: none !important;
+}
+
+.pac-logo:after{
+  content:"";
+  padding:1px 1px 1px 0;
+  height:18px;
+  box-sizing:border-box;
+  text-align:right;
+  display:block;
+  background-image:none !important;
+  background-position:right;
+  background-repeat:no-repeat;
+  background-size:120px 14px
+}
+.hdpi.pac-logo:after{
+  background-image: none !important;
+}
+
+
 
 .amplify-authenticator {
-    width: var(--component-width-desktop);
-    margin: 0 auto;
-    border-radius: 6px;
-    background-color: var(--color-white);
-    box-shadow: none !important;
-  }
+  width: var(--component-width-desktop);
+  margin: 0 auto;
+  border-radius: 6px;
+  background-color: var(--color-white);
+  box-shadow: none !important;
+}
 
-  .truck {
-    margin: -10px -10px;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #fff;
-    border-radius: 50%;
-    background: #3887be;
-    pointer-events: none;
-  }
+.truck {
+  margin: -10px -10px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #3887be;
+  pointer-events: none;
+}

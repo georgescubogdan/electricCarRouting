@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { route } from './classes';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {RequestOptions, Request, Headers } from '@angular/http';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +11,22 @@ export class RestService {
 
   constructor(private http : HttpClient) { }
 
-  get(url : string, id = '') {
-    return this.http.get(url + id);
+  get(id = '') {
+    //routes: route[];
+    this.http.get('https://3voxctner5.execute-api.eu-west-1.amazonaws.com/hack' + id).subscribe(
+          e => {
+            console.log(e);
+            return e;
+          });
   }
-  post(url: string, body: any, id = '') {
-    return this.http.post(url + id, body);
+  put(body: any, id = '') {
+    let requestOptions = new RequestOptions({ headers:null, withCredentials: 
+      true });
+
+      
+    return this.http.put('https://3voxctner5.execute-api.eu-west-1.amazonaws.com/hack' + id, body, {headers: new HttpHeaders({'Access-Control-Allow-Methods' : '*'})
+    }).subscribe(e => {
+      console.log(e);
+    });
   }
 }
