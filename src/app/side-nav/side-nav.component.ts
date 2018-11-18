@@ -75,9 +75,13 @@ export class SideNavComponent implements OnInit {
     }
   }
 
-  search(){
+  search() {
     console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
     console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
+    console.log('hours: ', this.valueHours)
+    console.log('hops: ', this.valueHops)
+    console.log('maxdist: ', this.valueMaxdist)
+    console.log('maxdet: ', this.valueMaxdet)
   }
 
   signOut(){
@@ -86,7 +90,46 @@ export class SideNavComponent implements OnInit {
     this.loginService.user = null;
   }
 
+  valueHours = '';
+  valueHops = '';
+  valueMaxdist = '';
+  valueMaxdet = '';
+
+  onKeyHours(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueHours = "0";
+    }
+    else {
+      this.valueHours = data;
+    }
+  }
   
+  onKeyHops(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueHops = "0";
+    }
+    else {
+      this.valueHops = data;
+    }
+  }
+
+  onKeyMaxdist(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueMaxdist = "0";
+    }
+    else {
+      this.valueMaxdist = data;
+    }
+  }
+
+  onKeyMaxdet(data: string) {
+    if(isNaN(Number(data))) {
+      this.valueMaxdet = "0";
+    }
+    else {
+      this.valueMaxdet = data;
+    }
+  }
 
   save() {
     console.log('intra');

@@ -46,12 +46,12 @@
         </mat-expansion-panel-header>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Maximum distance"/>
+            <input matInput #maxdist (keyup)="onKeyMaxdist(maxdist.value)" placeholder="Maximum distance"/>
           </mat-form-field>
         </form>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Maximum detour"/>
+            <input matInput #maxdet (keyup)="onKeyMaxdet(maxdet.value)" placeholder="Maximum detour"/>
           </mat-form-field>
         </form>
       </mat-expansion-panel>
