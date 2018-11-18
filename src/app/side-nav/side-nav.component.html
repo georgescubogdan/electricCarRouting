@@ -64,7 +64,7 @@
     </div>
   </div>
   
-  <div *ngIf="!home">
+  <div *ngIf="!home&&!results">
     <div align="center" style="position: absolute; top: 5%; left: 3%;">
       <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
     </div>
@@ -80,6 +80,25 @@
     <div align="center">
       <app-routes [routes]="routes"></app-routes>
       <button mat-button color="primary" style="background-color: var(--darkBlue);" (click)="goHome()">Home</button>
+    </div>
+  </div>
+
+  <div *ngIf="!home&&results">
+    <div align="center" style="position: absolute; top: 5%; left: 3%;">
+      <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
+    </div>
+    <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div align="center">
+      <app-results [results]="res"></app-results>
+      <button mat-button color="primary" style="background-color: var(--darkBlue);" (click)="goHome()">Back</button>
     </div>
   </div>
 </mat-drawer>

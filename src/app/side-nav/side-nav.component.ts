@@ -5,7 +5,7 @@ import { AmplifyService } from 'aws-amplify-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
-import { route } from '../classes';
+import { route, result } from '../classes';
 import { ChattingService } from '../chatting.service';
 import { RestService } from '../http.service';
 import { HttpClient } from '@angular/common/http';
@@ -25,10 +25,11 @@ export class SideNavComponent implements OnInit {
   firstCity: Location;
   secondCity: Location;
   home: boolean = true;
-
+  results : boolean = false;
   fromPlace: string;
   toPlace: string;
   routes : route[];
+  res : result[];
   events: string[] = [];
   opened: boolean = true;
   first: String;
@@ -133,10 +134,16 @@ export class SideNavComponent implements OnInit {
 
   goHome() {
     this.home = true;
+    this.results = false;
   }
 
   goHistory() {
     this.home = false;
+    this.results = false;
+  }
+  goResults() {
+    this.home = false;
+    this.results = true;
   }
 
   onAddressSelected(result: PlaceResult, x: boolean) {
@@ -163,6 +170,7 @@ export class SideNavComponent implements OnInit {
       this._chattingService.talkLoud('Adrese introduse incorect! Ai grijă ce faci');
       return;
     }
+    this.goResults();
     console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
     console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
     console.log('hours: ', this.valueHours)

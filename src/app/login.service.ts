@@ -29,6 +29,5 @@ export class LoginService {
     });
   });
   constructor( private amplifyService: AmplifyService ) {
-    
   }
 }

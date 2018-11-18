@@ -3,3 +3,6 @@ export class route {
     end: String;
     path: String;
 }
+export class result {
+    name: String;
+}

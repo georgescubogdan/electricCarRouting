@@ -18,6 +18,7 @@ import { MapComponent } from './map/map.component';
 import { MapService } from './map.service';
 import { VoiceListenerService } from './voice-listener.service';
 import { ChattingService } from './chatting.service';
+import { ResultsComponent } from './results/results.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +27,7 @@ import { ChattingService } from './chatting.service';
     SideNavComponent,
     RoutesComponent,
     MapComponent,
+    ResultsComponent,
   ],
   imports: [
     BrowserModule,
