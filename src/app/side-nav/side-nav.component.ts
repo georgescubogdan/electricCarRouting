@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import PlaceResult = google.maps.places.PlaceResult;
 import {Location, Appearance} from '@angular-material-extensions/google-maps-autocomplete';
 import { AmplifyService } from 'aws-amplify-angular';
@@ -8,14 +8,18 @@ import { Router } from '@angular/router';
 import { route, result } from '../classes';
 import { ChattingService } from '../chatting.service';
 import { RestService } from '../http.service';
+import * as mapboxgl from 'mapbox-gl';
+import * as turf from '@turf/turf';
+import { MapService } from '../map.service';
 import { HttpClient } from '@angular/common/http';
+import { Map } from '../../../node_modules/mapbox-gl/dist/mapbox-gl.js';
 
 @Component({
   selector: 'app-side-nav',
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.css']
 })
-export class SideNavComponent implements OnInit {
+export class SideNavComponent implements OnInit, AfterViewInit {
   public appearance = Appearance;
   public zoom: number;
   public latitude: number;
@@ -27,14 +31,14 @@ export class SideNavComponent implements OnInit {
   home: boolean = true;
   results : boolean = false;
   fromPlace: string;
-  toPlace: string;
+
   routes : route[];
   res : result[];
   events: string[] = [];
   opened: boolean = true;
   first: String;
   second: String;
-  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private rest: RestService, private _chattingService: ChattingService, private http : HttpClient ) {
+  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private rest: RestService, private _chattingService: ChattingService, private mapService: MapService, private http: HttpClient ) {
     this.options = fb.group({
       bottom: 0,
       fixed: false,
@@ -42,8 +46,22 @@ export class SideNavComponent implements OnInit {
     });
   }
 
+
+  truckLocation = new mapboxgl.LngLat(26.052601, 44.440989);
+  nothing = turf.featureCollection([]);
+  
+  
+  warehouseLocation = [26.047156, 44.445303];
+  warehouse = turf.featureCollection([turf.point(this.warehouseLocation)]);
+  currentRoute = null;
+  speedFactor = 50;
+  
+  dropoffs = turf.featureCollection([]);
+  chargers = turf.featureCollection([]);
+  usedChargers = turf.featureCollection([]);
+  detour = turf.featureCollection([]);
+
   ngOnInit() {
-    this._chattingService.talkLoud('Bună bogdan');
     this.rest.get('bogdan').subscribe(e => {
       this.routes = this.rest.getRoutesFromString(e['routes']);
       console.log(this.routes);
@@ -56,81 +74,217 @@ export class SideNavComponent implements OnInit {
     this._chattingService.finishedCommand.subscribe(cmd => {
       switch (cmd.intentName) {
         case 'maps.navigate_to':
-          let from = cmd.from.split(' ').join('+');
-          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + from + '&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
-            e => {
-              console.log(e['results'][0]['formatted_address']);
-              this.fromPlace = e['results'][0]['formatted_address'];
-              this.first = this.fromPlace;
-              this.firstCity = e['results'][0]['geometry']['location'];
-            });
-            let to = cmd.to.split(' ').join('+');
-          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + to + '&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
-            e => {
-              console.log(e['results'][0]['formatted_address']);
-              this.toPlace = e['results'][0]['formatted_address'];
-              this.second = this.toPlace;
-              this.secondCity = e['results'][0]['geometry']['location'];
-            });
-          //this.fromPlace = cmd.from + '\n';
-          // console.log(cmd.to);
+          this.fromPlace = cmd.from + '\n';
+          console.log(cmd.to);
           break;
-        case 'logout':
-          this.signOut();
-          break;
-        case 'salvare':
-          this.save();
-          break;
-        case 'acasa':
-          this.goHome();
-          break;
-        case 'istoric':
-          this.goHistory();
-          break;
-          // case "maps.hotels_nearby":
-          // if(cmd.params['raza'] === '') {
-          //   cmd.params['raza'] = 1000;
-          // } else {
-          //   cmd.params['raza'] = cmd.params['raza'] * 1000;
-          // }
-          // console.log(cmd.params['raza']);
-          // this.getPlaces(cmd.params['raza'], "lodging");
-          // this._chattingService.talkLoud(`Se încarcă hotelurile pe o rază de ${cmd.params['raza']} de metri.`);
-          // break;
       }
     });
     //this.setCurrentPosition();
 
   }
 
-  // markers: marker[] = [];
-  // places: Array<any> = [];
+ngAfterViewInit() {
+  let map: Map = new Map({
+    container: 'map',
+    // style: 'mapbox://styles/mapbox/traffic-night-v2',
+    style: 'mapbox://styles/mapbox/light-v9',
+    center: [26.052601, 44.440989],
+    zoom: 10
+  });
   
-  // getPlacesX(lat, lng, radius, type){
-  //   return this._http.get(this.baseUrl + 'GetNearbyPlaces/' + lat + "/" + lng + "/" + radius + "/" + type)
-  //   .map((response: Response) =>response.json())
-  //   .catch(this._errorHandler);
-  // }
+  this.mapService.map = map;
+  
+  map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+      enableHighAccuracy: true
+    },
+    trackUserLocation: true
+  }));
+  map.on('load', () => {
+    var marker = document.createElement('div');
+    marker.classList.add('truck');
+    // Create a new marker
+    let truckMarker = new mapboxgl.Marker(marker)
+    .setLngLat(this.truckLocation)
+    .addTo(map);
+    
+    map.addSource('route', {
+      type: 'geojson',
+      data: this.nothing
+    });
 
-  // getPlaces(radius, type) {
-  //   this.markers = [];
-  //   this.getPlacesX(this.latitude, this.longitude, radius, type).subscribe(
-  //     data => { 
-  //       this.places = data;
-  //       this.places.forEach(elem => {
-  //         console.log(elem);
-  //         this.markers.push({
-  //           lat: elem.lat,
-  //           lng: elem.lng
-  //         });
-  //       });
-  //     },
-  //     error => { debugger;
-  //      console.log(error);
-  //     }
-      
-  //   )
-  // }
+    map.addSource('route2', {
+      type: 'geojson',
+      data: this.nothing
+    });
+    
+    map.addLayer({
+      id: 'routeline-active',
+      type: 'line',
+      source: 'route',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#3887be',
+        'line-width': {
+          base: 1,
+          stops: [[12, 3], [22, 12]]
+        }
+      }
+    }, 'waterway-label');
+
+    map.addLayer({
+      id: 'routeline-active2',
+      type: 'line',
+      source: 'route2',        
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': '#3887be',
+        'line-width': {
+          base: 1,
+          stops: [[12, 3], [22, 12]]
+        }
+      }
+    }, 'waterway-label');
+    
+    // Create a circle layer
+    // map.addLayer({
+    //   id: 'warehouse',
+    //   type: 'circle',
+    //   source: {
+    //     data: this.warehouse,
+    //     type: 'geojson'
+    //   },
+    //   paint: {
+    //     'circle-radius': 20,
+    //     'circle-color': 'white',
+    //     'circle-stroke-color': '#3887be',
+    //     'circle-stroke-width': 3
+    //   }
+    // });
+    
+    // Create a symbol layer on top of circle layer
+    // map.addLayer({
+    //   id: 'warehouse-symbol',
+    //   type: 'symbol',
+    //   source: {
+    //     data: this.warehouse,
+    //     type: 'geojson'
+    //   },
+    //   layout: {
+    //     'icon-image': 'grocery-15',
+    //     'icon-size': 1
+    //   },
+    //   paint: {
+    //     'text-color': '#3887be'
+    //   }
+    // });
+    
+    map.addLayer({
+      id: 'dropoffs-symbol',
+      type: 'symbol',
+      source: {
+        data: this.dropoffs,
+        type: 'geojson'
+      },
+      layout: {
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'icon-image': 'marker-15',
+        'icon-size': 2
+      }
+    });
+
+
+    map.addLayer({
+      id: 'chargers-symbol',
+      type: 'symbol',
+      source: {
+        data: this.chargers,
+        type: 'geojson'
+      },
+      paint: {
+        'text-color': '#ff0000'
+      },
+      layout: {
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'icon-image': 'fuel-15',
+        'icon-size': 2          
+      }
+    });
+
+
+    map.addLayer({
+      id: 'used-chargers-symbol',
+      type: 'symbol',
+      source: {
+        data: this.usedChargers,
+        type: 'geojson'
+      },
+      layout: {
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'icon-image': 'rocket-15',
+        'icon-size': 2          
+      }
+    });
+  });
+  
+  map.on('click', e => {
+    // When the map is clicked, add a new drop-off point
+    // and update the `dropoffs-symbol` layer
+    this.newDropoff(map.unproject(e.point));
+    this.updateDropoffs(this.dropoffs);
+  });
+}
+
+//pune un punct pe map
+async newDropoff(coords) {
+  // Store the clicked point as a new GeoJSON feature with
+  // two properties: `orderTime` and `key`
+  console.log(coords);
+    var pt = turf.point(
+      [coords.lng, coords.lat],
+      {
+        orderTime: Date.now(),
+        key: Math.random()
+      }
+    );
+    this.dropoffs.features.push(pt);
+    
+    this.mapService.makeRoad([this.truckLocation.lng, this.truckLocation.lat], [coords.lng, coords.lat]).then(road => {
+      console.log(road);
+      this.chargers.features = road[1];
+      this.usedChargers.features = road[2];
+      this.updateChargers(this.chargers);
+      this.updateUsedChargers(this.usedChargers);
+      this.mapService.map.getSource('route2').setData(road[0]);
+    });
+}
+
+updateDropoffs(geojson) {
+  this.mapService.map.getSource('dropoffs-symbol')
+  .setData(geojson);
+}
+
+updateChargers(geojson) {
+  this.mapService.map.getSource('chargers-symbol')
+  .setData(geojson);
+}
+
+updateUsedChargers(geojson) {
+  this.mapService.map.getSource('used-chargers-symbol')
+  .setData(geojson);
+}
+
+
+
 
   goHome() {
     this.home = true;
@@ -183,7 +337,6 @@ export class SideNavComponent implements OnInit {
     this.amplifyService.auth().signOut();
     this.loginService.signedIn = false;
     this.loginService.user = null;
-    this.router.navigate(["login"]);
   }
 
   valueHours = '';
@@ -229,13 +382,6 @@ export class SideNavComponent implements OnInit {
 
   save() {
     console.log('intra');
-
-    if (this.first == undefined || this.second == undefined) {
-      console.log('iese');
-      return;
-    }
-
-    console.log(this.first);
     let route: route = {
       start : this.first,
       end : this.second,
@@ -249,10 +395,4 @@ export class SideNavComponent implements OnInit {
     console.log(stringifiedRoutes);
     this.rest.put({"routes":stringifiedRoutes}, 'bogdan');
   }
-}
-
-interface marker {
-	lat: any;
-	lng: any;
-	label?: string;
 }
