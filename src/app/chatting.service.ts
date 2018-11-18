@@ -48,6 +48,7 @@ export class ChattingService {
           } else {
             console.log(response);
             this._answer.intentName = intentName;
+            this.talkLoud(response['result']['fulfillment']['speech']);
             this.finishedCommand.emit({intentName, ...response['result']['parameters']});
           }
         });
