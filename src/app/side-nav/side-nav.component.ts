@@ -37,7 +37,7 @@ export class SideNavComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rest.get('mihai').subscribe(e => {
+    this.rest.get('bogdan').subscribe(e => {
       this.routes = this.rest.getRoutesFromString(e['routes']);
       console.log(this.routes);
     });
