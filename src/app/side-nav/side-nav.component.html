@@ -1,102 +1,94 @@
-<mat-drawer-container *ngIf="home" class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side" [(opened)]="opened" (opened)="events.push('open!')"
+<mat-drawer-container  class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="over" [(opened)]="opened" (opened)="events.push('open!')"
   (closed)="events.push('close!')">
-  <div align="center" style="position: absolute; top: 5%; left: 3%;">
-    <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
-  </div>
-  <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
-  <br>
-  <br>
-  <br>
-  <br>
-  <div fxFlex id="first">
-    <div id="fmm" fxFlex fxFlexAlign="center">
-      <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelectedFirst($event)">
-      </mat-google-maps-autocomplete>
+  <div *ngIf="home">
+    <div align="center" style="position: absolute; top: 5%; left: 3%;">
+      <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
+    </div>
+    <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
+    <br>
+    <br>
+    <br>
+    <br>
+    <div fxFlex id="first">
+      <div id="fmm" fxFlex fxFlexAlign="center">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelectedFirst($event)">
+        </mat-google-maps-autocomplete>
+      </div>
+    </div>
+    <div fxFlex id="second">
+      <div id="second" fxFlex fxFlexAlign="center">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelected($event, false)">
+        </mat-google-maps-autocomplete>
+      </div>
+    </div>
+    <br>
+    
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Hours"/>
+      </mat-form-field>
+    </form>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Maximum hops"/>
+      </mat-form-field>
+    </form>
+    
+    <mat-accordion>
+      <mat-expansion-panel style="margin-bottom: 30px; margin-top: 15px">
+        <mat-expansion-panel-header>
+          <!-- <mat-panel-title>
+            Advanced
+          </mat-panel-title> -->
+          <mat-panel-description>
+            Advanced Settings
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Maximum distance"/>
+          </mat-form-field>
+        </form>
+        <form class="example-form">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Maximum detour"/>
+          </mat-form-field>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    
+    <div align=center>
+      <button mat-button color="primary" style="background-color: var(--darkBlue); margin-left: 15px; margin-right: 15px;" (click)="search()">Search</button>
+      <button mat-button color="primary" style="background-color: var(--darkBlue); margin-left: 15px; margin-right: 15px;" (click)="save()">Save</button>
+      <button mat-button color="primary" style="background-color: var(--darkBlue); margin-left: 15px; margin-right: 15px;" (click)="goHistory()">History</button>
     </div>
   </div>
-  <div fxFlex id="second">
-    <div id="second" fxFlex fxFlexAlign="center">
-      <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelected($event, false)">
-      </mat-google-maps-autocomplete>
+  
+  <div *ngIf="!home">
+    <div align="center" style="position: absolute; top: 5%; left: 3%;">
+      <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
+    </div>
+    <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div align="center">
+      <app-routes [routes]="routes"></app-routes>
+      <button mat-button color="primary" style="background-color: var(--darkBlue);" (click)="goHome()">Home</button>
     </div>
   </div>
-  <br>
-  
-  <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Hours"/>
-    </mat-form-field>
-  </form>
-  <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Maximum hops"/>
-    </mat-form-field>
-  </form>
-  
-  <mat-accordion>
-    <mat-expansion-panel style="margin-bottom: 30px; margin-top: 15px">
-      <mat-expansion-panel-header>
-        <!-- <mat-panel-title>
-          Advanced
-        </mat-panel-title> -->
-        <mat-panel-description>
-          Advanced Settings
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Maximum distance"/>
-        </mat-form-field>
-      </form>
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Maximum detour"/>
-        </mat-form-field>
-      </form>
-    </mat-expansion-panel>
-  </mat-accordion>
-  
-  <div align=center>
-    <button mat-button color="primary" style="background-color: var(--darkBlue); margin-left: 15px; margin-right: 15px;" (click)="search()">Search</button>
-    <button mat-button color="primary" style="background-color: var(--darkBlue); margin-left: 15px; margin-right: 15px;" (click)="save()">Save</button>
-    <button mat-button color="primary" style="background-color: var(--darkBlue); margin-left: 15px; margin-right: 15px;" (click)="goHistory()">History</button>
-  </div>
 </mat-drawer>
-
 <div class="example-sidenav-content">
-  <button type="button" mat-button (click)="drawer.toggle()">
-    Magic
+  <button type="button" mat-button (click)="drawer.toggle()" style="z-index: 900">
+    Show
   </button>
-</div>
-
-</mat-drawer-container>
-
-<mat-drawer-container *ngIf="!home" class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-  (closed)="events.push('close!')">
-  <div align="center" style="position: absolute; top: 5%; left: 3%;">
-    <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
-  </div>
-  <img style="position: absolute; top: 1%; right: 10%;" src="assets/logo.ico" width="20%">
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  
-  <div align="center">
-    <app-routes [routes]="routes"></app-routes>
-    <button mat-button color="primary" style="background-color: var(--darkBlue);" (click)="goHome()">Home</button>
-  </div>
-</mat-drawer>
-
-<div class="example-sidenav-content">
-  <button type="button" mat-button (click)="drawer.toggle()">
-    Magic
-  </button>
+  <app-map></app-map>
 </div>
 
 </mat-drawer-container>
