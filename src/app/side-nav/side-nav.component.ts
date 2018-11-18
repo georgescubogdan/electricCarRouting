@@ -42,6 +42,7 @@ export class SideNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._chattingService.talkLoud('Bună bogdan');
     this.rest.get('bogdan').subscribe(e => {
       this.routes = this.rest.getRoutesFromString(e['routes']);
       console.log(this.routes);
@@ -85,12 +86,50 @@ export class SideNavComponent implements OnInit {
         case 'istoric':
           this.goHistory();
           break;
-
+          // case "maps.hotels_nearby":
+          // if(cmd.params['raza'] === '') {
+          //   cmd.params['raza'] = 1000;
+          // } else {
+          //   cmd.params['raza'] = cmd.params['raza'] * 1000;
+          // }
+          // console.log(cmd.params['raza']);
+          // this.getPlaces(cmd.params['raza'], "lodging");
+          // this._chattingService.talkLoud(`Se încarcă hotelurile pe o rază de ${cmd.params['raza']} de metri.`);
+          // break;
       }
     });
     //this.setCurrentPosition();
 
   }
+
+  // markers: marker[] = [];
+  // places: Array<any> = [];
+  
+  // getPlacesX(lat, lng, radius, type){
+  //   return this._http.get(this.baseUrl + 'GetNearbyPlaces/' + lat + "/" + lng + "/" + radius + "/" + type)
+  //   .map((response: Response) =>response.json())
+  //   .catch(this._errorHandler);
+  // }
+
+  // getPlaces(radius, type) {
+  //   this.markers = [];
+  //   this.getPlacesX(this.latitude, this.longitude, radius, type).subscribe(
+  //     data => { 
+  //       this.places = data;
+  //       this.places.forEach(elem => {
+  //         console.log(elem);
+  //         this.markers.push({
+  //           lat: elem.lat,
+  //           lng: elem.lng
+  //         });
+  //       });
+  //     },
+  //     error => { debugger;
+  //      console.log(error);
+  //     }
+      
+  //   )
+  // }
 
   goHome() {
     this.home = true;
@@ -120,6 +159,10 @@ export class SideNavComponent implements OnInit {
   }
 
   search() {
+    if (this.first == undefined || this.second == undefined) {
+      this._chattingService.talkLoud('Adrese introduse incorect! Ai grijă ce faci');
+      return;
+    }
     console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
     console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
     console.log('hours: ', this.valueHours)
@@ -178,6 +221,13 @@ export class SideNavComponent implements OnInit {
 
   save() {
     console.log('intra');
+
+    if (this.first == undefined || this.second == undefined) {
+      console.log('iese');
+      return;
+    }
+
+    console.log(this.first);
     let route: route = {
       start : this.first,
       end : this.second,
@@ -191,4 +241,10 @@ export class SideNavComponent implements OnInit {
     console.log(stringifiedRoutes);
     this.rest.put({"routes":stringifiedRoutes}, 'bogdan');
   }
+}
+
+interface marker {
+	lat: any;
+	lng: any;
+	label?: string;
 }
