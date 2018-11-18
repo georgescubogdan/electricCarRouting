@@ -1,6 +1,5 @@
 <mat-drawer-container  class="example-container" autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="over" [(opened)]="opened" (opened)="events.push('open!')"
-  (closed)="events.push('close!')">
+    <mat-drawer #drawer class="example-sidenav" mode="over" [(opened)]="opened" (opened)="events.push('open!')" (closed)="events.push('close!')">
   <div *ngIf="home">
     <div align="center" style="position: absolute; top: 5%; left: 3%;">
       <button mat-button color="primary" style="background-color: transparent" (click)="signOut()">Sign out</button>
@@ -12,13 +11,13 @@
     <br>
     <div fxFlex id="first">
       <div id="fmm" fxFlex fxFlexAlign="center">
-        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelectedFirst($event)">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onAutocompleteSelected)="onAddressSelected($event, true)" (onLocationSelected)="onLocationSelected($event, true)">
         </mat-google-maps-autocomplete>
       </div>
     </div>
     <div fxFlex id="second">
       <div id="second" fxFlex fxFlexAlign="center">
-        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelected($event, false)">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onAutocompleteSelected)="onAddressSelected($event, false)" (onLocationSelected)="onLocationSelected($event, false)">
         </mat-google-maps-autocomplete>
       </div>
     </div>
@@ -26,12 +25,12 @@
     
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Hours"/>
+        <input #hours (keyup)="onKeyHours(hours.value)" matInput placeholder="Hours"/>
       </mat-form-field>
     </form>
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Maximum hops"/>
+        <input #hops (keyup)="onKeyHops(hops.value)" matInput placeholder="Maximum hops"/>
       </mat-form-field>
     </form>
     

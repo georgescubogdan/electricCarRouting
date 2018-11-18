@@ -21,7 +21,7 @@ export class RestService {
       true });
 
       
-    return this.http.put('https://3voxctner5.execute-api.eu-west-1.amazonaws.com/hack' + id, body, {headers: new HttpHeaders({'Access-Control-Allow-Methods' : '*'})
+    return this.http.put('https://3voxctner5.execute-api.eu-west-1.amazonaws.com/hack/' + id, body, {headers: new HttpHeaders({'Access-Control-Allow-Methods' : '*'})
     }).subscribe(e => {
       console.log(e);
     });

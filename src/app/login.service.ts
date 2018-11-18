@@ -21,7 +21,13 @@ export class LoginService {
       }
     });
   });
-  
+  public userObservable: Observable<any> = new Observable(observer => {
+    this.amplifyService.authStateChange$
+    .subscribe(authState => {
+      console.log(authState.user);
+      observer.next(authState.user);
+    });
+  });
   constructor( private amplifyService: AmplifyService ) {
     
   }
