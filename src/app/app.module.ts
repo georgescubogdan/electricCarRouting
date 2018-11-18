@@ -18,6 +18,8 @@ import { HistoryNavComponent } from './history-nav/history-nav.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MapComponent } from './map/map.component';
 import { MapService } from './map.service';
+import { VoiceListenerService } from './voice-listener.service';
+import { ChattingService } from './chatting.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,8 @@ import { MapService } from './map.service';
   providers: [
     AmplifyService,
     MapService,
+    VoiceListenerService,
+    ChattingService
   ],
   bootstrap: [AppComponent]
 })
