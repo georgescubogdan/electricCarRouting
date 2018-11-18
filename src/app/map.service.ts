@@ -10,7 +10,7 @@ export class MapService {
   nothing = turf.featureCollection([]);
   
   constructor(private http: HttpClient) {
-    (mapboxgl as any).accessToken = 'pk.eyJ1Ijoia2V5a2V5a2V5IiwiYSI6ImNqb21janRkajA0bHczcXBmeTV6NTBndTkifQ.K-zjwu3uNA37kZs6fghbVw';
+    (mapboxgl as any).accessToken = 'pk.eyJ1IjoiYnVoYWhhIiwiYSI6ImNqb21tbGtxNzAzYmkzd3BvODFwdm8wY2oifQ.LcB-U1S4kSrNg6PwZkRppA';
   }
   
   
@@ -53,6 +53,7 @@ export class MapService {
 
     let geoJson: any;
     var routeGeoJSON = turf.featureCollection([turf.feature(data['trips'][0].geometry)]);
+
     let stations = [];
     let usedStations = [];
 
@@ -96,6 +97,7 @@ export class MapService {
         }
         if (finalDistance >= maxLen || i != chunks.features.length - 1) {
           var pt = turf.point(
+            
             maxCoordinates,
             {
               orderTime: Date.now(),

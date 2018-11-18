@@ -5,7 +5,7 @@ import { AmplifyService } from 'aws-amplify-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
-import { route, result } from '../classes';
+import { route } from '../classes';
 import { ChattingService } from '../chatting.service';
 import { RestService } from '../http.service';
 import * as mapboxgl from 'mapbox-gl';
@@ -26,14 +26,15 @@ export class SideNavComponent implements OnInit, AfterViewInit {
   public longitude: number;
   public selectedAddress: PlaceResult;
   options: FormGroup;
-  firstCity: Location;
-  secondCity: Location;
+  firstCity: any;
+  secondCity: any;
   home: boolean = true;
   results : boolean = false;
   fromPlace: string;
+  toPlace: string;
 
   routes : route[];
-  res : result[];
+  res : any;
   events: string[] = [];
   opened: boolean = true;
   first: String;
@@ -74,11 +75,48 @@ export class SideNavComponent implements OnInit, AfterViewInit {
     this._chattingService.finishedCommand.subscribe(cmd => {
       switch (cmd.intentName) {
         case 'maps.navigate_to':
-          this.fromPlace = cmd.from + '\n';
-          console.log(cmd.to);
+          let from = cmd.from.split(' ').join('+');
+          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + from + '&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
+            e => {
+              console.log(e['results'][0]['formatted_address']);
+              this.fromPlace = e['results'][0]['formatted_address'];
+              this.first = this.fromPlace;
+              this.firstCity = e['results'][0]['geometry']['location'];
+              this.firstCity.lat = this.firstCity.latitude;
+              this.firstCity.lng = this.firstCity.longitude;
+              console.log(this.firstCity);
+            });
+            let to = cmd.to.split(' ').join('+');
+          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + to + '&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
+            e => {
+              console.log(e['results'][0]['formatted_address']);
+              this.toPlace = e['results'][0]['formatted_address'];
+              this.second = this.toPlace;
+              this.secondCity = e['results'][0]['geometry']['location'];
+              this.secondCity.lat = this.secondCity.latitude;
+              this.secondCity.lng = this.secondCity.longitude;
+            });
+          console.log(this.firstCity, this.secondCity);
+         
+          //this.fromPlace = cmd.from + '\n';
+          // console.log(cmd.to);
           break;
+        case 'logout':
+          this.signOut();
+          break;
+        case 'salvare':
+          this.save();
+          break;
+        case 'acasa':
+          this.goHome();
+          break;
+        case 'istoric':
+          this.goHistory();
+          break;
+
       }
     });
+
     //this.setCurrentPosition();
 
   }
@@ -256,6 +294,7 @@ async newDropoff(coords) {
         key: Math.random()
       }
     );
+    this.dropoffs.features.length = 0;    
     this.dropoffs.features.push(pt);
     
     this.mapService.makeRoad([this.truckLocation.lng, this.truckLocation.lat], [coords.lng, coords.lat]).then(road => {
@@ -324,9 +363,24 @@ updateUsedChargers(geojson) {
       this._chattingService.talkLoud('Adrese introduse incorect! Ai grijă ce faci');
       return;
     }
+
     this.goResults();
-    console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
-    console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
+
+
+
+    console.log('first: ', [this.firstCity.latitude, this.firstCity.longitude]);
+    console.log('second: ', [this.secondCity.latitude, this.secondCity.longitude]);
+    this.mapService.makeRoad([this.firstCity.longitude, this.firstCity.latitude], [this.secondCity.longitude, this.secondCity.latitude]).then(road => {
+      console.log(road);
+      this.chargers.features = road[1];
+      this.usedChargers.features = road[2];
+      this.updateChargers(this.chargers);
+      this.updateUsedChargers(this.usedChargers);
+      this.mapService.map.getSource('route2').setData(road[0]);
+    });
+
+
+
     console.log('hours: ', this.valueHours)
     console.log('hops: ', this.valueHops)
     console.log('maxdist: ', this.valueMaxdist)
