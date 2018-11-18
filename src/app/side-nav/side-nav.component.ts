@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { route } from '../classes';
+import { ChattingService } from '../chatting.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -23,9 +24,11 @@ export class SideNavComponent implements OnInit {
   secondCity: Location;
   home: boolean = true;
 
+  fromPlace: string;
+
   events: string[] = [];
   opened: boolean = true;
-  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router ) {
+  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private _chattingService: ChattingService ) {
     this.options = fb.group({
       bottom: 0,
       fixed: false,
@@ -39,6 +42,14 @@ export class SideNavComponent implements OnInit {
     this.latitude = 52.520008;
     this.longitude = 13.404954;
     
+    this._chattingService.finishedCommand.subscribe(cmd => {
+      switch (cmd.intentName) {
+        case 'maps.navigate_to':
+          this.fromPlace = cmd.from + '\n';
+          console.log(cmd.to);
+          break;
+      }
+    });
     //this.setCurrentPosition();
 
   }
@@ -68,7 +79,7 @@ export class SideNavComponent implements OnInit {
     this.home = false;
   }
 
-  onAddressSelected(result: PlaceResult) {
+  onAddressSelectedFirst(result: PlaceResult) {
     console.log('onAddressSelected: ', result);
   }
 

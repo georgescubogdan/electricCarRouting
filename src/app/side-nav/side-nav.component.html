@@ -12,13 +12,13 @@
     <br>
     <div fxFlex id="first">
       <div id="fmm" fxFlex fxFlexAlign="center">
-        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelectedFirst($event)">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" [address]="fromPlace" autocorrect="off" (onLocationSelected)="onLocationSelectedFirst($event)">
         </mat-google-maps-autocomplete>
       </div>
     </div>
     <div fxFlex id="second">
       <div id="second" fxFlex fxFlexAlign="center">
-        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onLocationSelected)="onLocationSelected($event, false)">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" (onLocationSelected)="onLocationSelected($event, false)">
         </mat-google-maps-autocomplete>
       </div>
     </div>

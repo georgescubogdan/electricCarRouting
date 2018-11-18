@@ -28,8 +28,6 @@ export class ChattingService {
 
   public activate_listener() {
     this._voiceListener.startRecognition();
-    console.log("PULA");
-    this.talkLoud("Am început să ascult");
   }
 
   public deactivate_listener() {
@@ -43,7 +41,7 @@ export class ChattingService {
       this.client.textRequest(command).then(response => {
         const incomplete = response['result']['actionIncomplete'];
         const intentName = response['result']['metadata']['intentName'];
-        if(incomplete == true) {
+        if (incomplete == true) {
           let missing = response['result']['fulfillment']['speech'];
           this.talkLoud(missing);
         } else {
