@@ -17,7 +17,7 @@
     </div>
     <div fxFlex id="second">
       <div id="second" fxFlex fxFlexAlign="center">
-        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" (onAutocompleteSelected)="onAddressSelected($event, false)" (onLocationSelected)="onLocationSelected($event, false)">
+        <mat-google-maps-autocomplete [addressLabelText]="ok" country="ro" [address]="toPlace" autocorrect="on" (onAutocompleteSelected)="onAddressSelected($event, false)" (onLocationSelected)="onLocationSelected($event, false)">
         </mat-google-maps-autocomplete>
       </div>
     </div>

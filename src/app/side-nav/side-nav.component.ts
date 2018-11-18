@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { route } from '../classes';
 import { ChattingService } from '../chatting.service';
 import { RestService } from '../http.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-side-nav',
@@ -26,13 +27,13 @@ export class SideNavComponent implements OnInit {
   home: boolean = true;
 
   fromPlace: string;
-
+  toPlace: string;
   routes : route[];
   events: string[] = [];
   opened: boolean = true;
   first: String;
   second: String;
-  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private rest: RestService, private _chattingService: ChattingService ) {
+  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private rest: RestService, private _chattingService: ChattingService, private http : HttpClient ) {
     this.options = fb.group({
       bottom: 0,
       fixed: false,
@@ -53,8 +54,24 @@ export class SideNavComponent implements OnInit {
     this._chattingService.finishedCommand.subscribe(cmd => {
       switch (cmd.intentName) {
         case 'maps.navigate_to':
-          this.fromPlace = cmd.from + '\n';
-          console.log(cmd.to);
+          let from = cmd.from.split(' ').join('+');
+          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + from + '&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
+            e => {
+              console.log(e['results'][0]['formatted_address']);
+              this.fromPlace = e['results'][0]['formatted_address'];
+              this.first = this.fromPlace;
+              this.firstCity = e['results'][0]['geometry']['location'];
+            });
+            let to = cmd.to.split(' ').join('+');
+          this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + to + '&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
+            e => {
+              console.log(e['results'][0]['formatted_address']);
+              this.toPlace = e['results'][0]['formatted_address'];
+              this.second = this.toPlace;
+              this.secondCity = e['results'][0]['geometry']['location'];
+            });
+          //this.fromPlace = cmd.from + '\n';
+          // console.log(cmd.to);
           break;
       }
     });
