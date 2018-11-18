@@ -89,68 +89,60 @@ export class SideNavComponent implements OnInit {
     this.secondCity = location;
   }
 
-  valueHours = '';
-  valueHops = '';
-  valueMaxdist = '';
-  valueMaxdet = '';
-
   search() {
-    var data = (<HTMLInputElement>document.getElementById("hours"));
-    if(data == null || Number.isNaN(parseInt(data.value, data.value.length))) {
-          this.valueHours = "0";
-    }
-    else {
-      this.valueHours = data.value;
-    }
-
-    data = (<HTMLInputElement>document.getElementById("hops"));
-    if(data == null || Number.isNaN(parseInt(data.value, data.value.length))) {
-          this.valueHops = "0";
-    }
-    else {
-      this.valueHops = data.value;
-    }
-
-    data = (<HTMLInputElement>document.getElementById("maxdist"));
-    if(data == null || Number.isNaN(parseInt(data.value, data.value.length))) {
-          this.valueMaxdist = "0";
-    }
-    else {
-      this.valueMaxdist = data.value;
-    }
-
-    data = (<HTMLInputElement>document.getElementById("maxdet"));
-    if(data == null || Number.isNaN(parseInt(data.value, data.value.length))) {
-          this.valueMaxdet = "0";
-    }
-    else {
-      this.valueMaxdet = data.value;
-    }
-
-    // this.valueHops = (<HTMLInputElement>document.getElementById("hops")).value;
-    // this.valueMaxdist = (<HTMLInputElement>document.getElementById("maxdist")).value;
-    // this.valueMaxdet = (<HTMLInputElement>document.getElementById("maxdet")).value;
-
-    // if(Number.isNaN(parseInt(data, data.length))) {
-    //   this.valueMaxdet = "0";
-    // }
-    // else {
-    //   this.valueMaxdet = data;
-    // }
-
-
     console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
     console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
-    console.log('hours: ', this.valueHours);
-    console.log('hops: ', this.valueHops);
-    console.log('max dist: ', this.valueMaxdist);
-    console.log('max det: ', this.valueMaxdet);
+    console.log('hours: ', this.valueHours)
+    console.log('hops: ', this.valueHops)
+    console.log('maxdist: ', this.valueMaxdist)
+    console.log('maxdet: ', this.valueMaxdet)
   }
 
   signOut(){
     this.amplifyService.auth().signOut();
     this.loginService.signedIn = false;
     this.loginService.user = null;
+  }
+
+  valueHours = '';
+  valueHops = '';
+  valueMaxdist = '';
+  valueMaxdet = '';
+
+  onKeyHours(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueHours = "0";
+    }
+    else {
+      this.valueHours = data;
+    }
+  }
+  
+  onKeyHops(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueHops = "0";
+    }
+    else {
+      this.valueHops = data;
+    }
+  }
+
+  onKeyMaxdist(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueMaxdist = "0";
+    }
+    else {
+      this.valueMaxdist = data;
+    }
+  }
+
+  onKeyMaxdet(data: string) {
+    if(isNaN(Number(data))) {
+      this.valueMaxdet = "0";
+    }
+    else {
+      this.valueMaxdet = data;
+    }
   }
 
   save() {
