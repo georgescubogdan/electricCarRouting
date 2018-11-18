@@ -45,6 +45,7 @@ export class SideNavComponent implements OnInit, AfterViewInit {
       fixed: false,
       top: 0
     });
+    this.nearbyPlaces({latitude : 44.439663, longitude: 26.096306});
   }
 
 
@@ -387,6 +388,20 @@ updateUsedChargers(geojson) {
     console.log('maxdet: ', this.valueMaxdet)
   }
 
+  nearbyPlaces(location: Location) {
+    
+    
+    this.http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
+            + location.latitude + ',' + location.longitude
+            + '&radius=10000&type=museum&key=AIzaSyAyfjHiYM9wOoWxCHaTVv5nabpxoAqaLhM').subscribe(
+            (e : any) => {
+              console.log(e.results);
+              e.results.forEach(element => {
+                this.res.push({name :element.name})
+              });
+      }
+    );
+  }
   signOut(){
     this.amplifyService.auth().signOut();
     this.loginService.signedIn = false;
