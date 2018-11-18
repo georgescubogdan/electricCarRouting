@@ -42,6 +42,7 @@ export class SideNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._chattingService.talkLoud('Bună bogdan');
     this.rest.get('bogdan').subscribe(e => {
       this.routes = this.rest.getRoutesFromString(e['routes']);
       console.log(this.routes);
@@ -158,6 +159,10 @@ export class SideNavComponent implements OnInit {
   }
 
   search() {
+    if (this.first == undefined || this.second == undefined) {
+      this._chattingService.talkLoud('Adrese introduse incorect! Ai grijă ce faci');
+      return;
+    }
     console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
     console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
     console.log('hours: ', this.valueHours)
@@ -216,6 +221,13 @@ export class SideNavComponent implements OnInit {
 
   save() {
     console.log('intra');
+
+    if (this.first == undefined || this.second == undefined) {
+      console.log('iese');
+      return;
+    }
+
+    console.log(this.first);
     let route: route = {
       start : this.first,
       end : this.second,
