@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer } from '@angular/core';
+import { Component, OnInit, Renderer, AfterViewInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import * as turf from '@turf/turf';
 import { MapService } from '../map.service';
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements AfterViewInit {
   truckLocation = new mapboxgl.LngLat(26.052601, 44.440989);
   constructor(private mapService: MapService, private http: HttpClient) { }
   
@@ -30,7 +30,7 @@ export class MapComponent implements OnInit {
   
   
   
-  ngOnInit() {
+  ngAfterViewInit() {
     let map = new Map({
       container: 'map',
       // style: 'mapbox://styles/mapbox/traffic-night-v2',
