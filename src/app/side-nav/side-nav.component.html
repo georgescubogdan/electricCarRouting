@@ -26,12 +26,12 @@
     
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Hours"/>
+        <input #hours matInput placeholder="Hours"/>
       </mat-form-field>
     </form>
     <form class="example-form">
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Maximum hops"/>
+        <input #hops matInput placeholder="Maximum hops"/>
       </mat-form-field>
     </form>
     
@@ -47,12 +47,12 @@
         </mat-expansion-panel-header>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Maximum distance"/>
+            <input matInput #maxdist placeholder="Maximum distance"/>
           </mat-form-field>
         </form>
         <form class="example-form">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Maximum detour"/>
+            <input matInput #maxdet placeholder="Maximum detour"/>
           </mat-form-field>
         </form>
       </mat-expansion-panel>
