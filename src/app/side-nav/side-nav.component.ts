@@ -7,6 +7,7 @@ import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { route } from '../classes';
 import { ChattingService } from '../chatting.service';
+import { RestService } from '../http.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -26,9 +27,12 @@ export class SideNavComponent implements OnInit {
 
   fromPlace: string;
 
+  routes : route[];
   events: string[] = [];
   opened: boolean = true;
-  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private _chattingService: ChattingService ) {
+  first: String;
+  second: String;
+  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private rest: RestService, private _chattingService: ChattingService ) {
     this.options = fb.group({
       bottom: 0,
       fixed: false,
@@ -37,6 +41,10 @@ export class SideNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.rest.get('bogdan').subscribe(e => {
+      this.routes = this.rest.getRoutesFromString(e['routes']);
+      console.log(this.routes);
+    });
 
     this.zoom = 10;
     this.latitude = 52.520008;
@@ -54,23 +62,6 @@ export class SideNavComponent implements OnInit {
 
   }
 
-  routes : route[] = [
-    {
-      start: "Pitesti",
-      end: "Bucuresti",
-      path: ""
-    },
-    {
-      start: "Pitesti",
-      end: "Bucuresti",
-      path: ""
-    },
-    {
-      start: "Pitesti",
-      end: "Bucuresti",
-      path: ""
-    }
-]
   goHome() {
     this.home = true;
   }
@@ -79,30 +70,32 @@ export class SideNavComponent implements OnInit {
     this.home = false;
   }
 
-  onAddressSelectedFirst(result: PlaceResult) {
-    console.log('onAddressSelected: ', result);
-  }
-
-  onLocationSelectedFirst(location: Location) {
-    console.log('onLocationSelectedFirst: ', location);
-    this.firstCity = location;
-  }
-
-  onLocationSelectedSecond(location: Location) {
-    console.log('onLocationSelectedSecond: ', location);
-    this.secondCity = location;
+  onAddressSelected(result: PlaceResult, x: boolean) {
+    if(x == true) {
+      this.first = result.formatted_address;
+      console.log(result.formatted_address);
+    }
+    else {
+      this.second = result.formatted_address;
+    }
   }
 
   onLocationSelected(location: Location, x : boolean) {
-    if(x == true)
+    if(x == true) {
       this.firstCity = location;
-    else
-    this.secondCity = location;
+    }
+    else {
+      this.secondCity = location;
+    }
   }
 
-  search(){
+  search() {
     console.log('first: ', this.firstCity.latitude, this.firstCity.longitude);
     console.log('second: ', this.secondCity.latitude, this.secondCity.longitude);
+    console.log('hours: ', this.valueHours)
+    console.log('hops: ', this.valueHops)
+    console.log('maxdist: ', this.valueMaxdist)
+    console.log('maxdet: ', this.valueMaxdet)
   }
 
   signOut(){
@@ -111,9 +104,60 @@ export class SideNavComponent implements OnInit {
     this.loginService.user = null;
   }
 
+  valueHours = '';
+  valueHops = '';
+  valueMaxdist = '';
+  valueMaxdet = '';
+
+  onKeyHours(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueHours = "0";
+    }
+    else {
+      this.valueHours = data;
+    }
+  }
   
+  onKeyHops(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueHops = "0";
+    }
+    else {
+      this.valueHops = data;
+    }
+  }
+
+  onKeyMaxdist(data: string) { // without type info
+    if(isNaN(Number(data))) {
+      this.valueMaxdist = "0";
+    }
+    else {
+      this.valueMaxdist = data;
+    }
+  }
+
+  onKeyMaxdet(data: string) {
+    if(isNaN(Number(data))) {
+      this.valueMaxdet = "0";
+    }
+    else {
+      this.valueMaxdet = data;
+    }
+  }
 
   save() {
-    
+    console.log('intra');
+    let route: route = {
+      start : this.first,
+      end : this.second,
+      path : "",
+    }
+    this.routes.push(route);
+    let stringifiedRoutes = this.rest.getStringFromRoutes(this.routes);
+    // this.loginService.userObservable.subscribe(e => {
+    //   console.log(e);
+    // });
+    console.log(stringifiedRoutes);
+    this.rest.put({"routes":stringifiedRoutes}, 'bogdan');
   }
 }

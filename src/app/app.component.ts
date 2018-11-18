@@ -10,12 +10,7 @@ import { ChattingService } from './chatting.service';
 })
 export class AppComponent {
   title = 'hackITall2018';
-   constructor (private rest: RestService, private _chattingService: ChattingService) {
+  constructor (private rest: RestService, private _chattingService: ChattingService) {
     this._chattingService.activate_listener();
-    rest.get('/mihai');
-     let j = {
-       "routes": "[{string, string, string}]"
-     };
-     rest.put( j, '/cosmin');
-   }
+  }
 }
