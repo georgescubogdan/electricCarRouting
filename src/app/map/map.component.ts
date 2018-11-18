@@ -1,10 +1,11 @@
-import { Component, OnInit, Renderer, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Renderer, AfterViewInit, Input, Output } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import * as turf from '@turf/turf';
 import { MapService } from '../map.service';
 
 import { Map } from '../../../node_modules/mapbox-gl/dist/mapbox-gl.js';
 import { HttpClient } from '@angular/common/http';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-map',
@@ -12,6 +13,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit {
+
   truckLocation = new mapboxgl.LngLat(26.052601, 44.440989);
   constructor(private mapService: MapService, private http: HttpClient) { }
   
@@ -192,35 +194,29 @@ export class MapComponent implements AfterViewInit {
       this.updateDropoffs(this.dropoffs);
     });
   }
-  
-  //primeste array de latitude, longitude (nu stiu daca asta e ordinea)
-  async getCharginStationsCloseToPoint(point: number[]) {
-    return await this.http.get('https://api.openchargemap.io/v2/poi/?latitude=' + point[1] + '&longitude=' + point[0] + '&distance=300&maxresults=10').toPromise();
-  }
-  
+
   //pune un punct pe map
   async newDropoff(coords) {
     // Store the clicked point as a new GeoJSON feature with
     // two properties: `orderTime` and `key`
     console.log(coords);
-    var pt = turf.point(
-      [coords.lng, coords.lat],
-      {
-        orderTime: Date.now(),
-        key: Math.random()
-      }
-    );
-    this.dropoffs.features.push(pt);
-    
-    let data = await this.mapService.makeRoad([this.truckLocation.lng, this.truckLocation.lat], [coords.lng, coords.lat]);
-
-    console.log(data);
-    this.chargers.features = data[1];
-    this.usedChargers.features = data[2];
-    this.updateChargers(this.chargers);
-    this.updateUsedChargers(this.usedChargers);
-    this.mapService.map.getSource('route2').setData(data[0]);
-    
+      var pt = turf.point(
+        [coords.lng, coords.lat],
+        {
+          orderTime: Date.now(),
+          key: Math.random()
+        }
+      );
+      this.dropoffs.features.push(pt);
+      
+      this.mapService.makeRoad([this.truckLocation.lng, this.truckLocation.lat], [coords.lng, coords.lat]).then(road => {
+        console.log(road);
+        this.chargers.features = road[1];
+        this.usedChargers.features = road[2];
+        this.updateChargers(this.chargers);
+        this.updateUsedChargers(this.usedChargers);
+        this.mapService.map.getSource('route2').setData(road[0]);
+      });
   }
   
   updateDropoffs(geojson) {

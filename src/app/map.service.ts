@@ -68,8 +68,12 @@ export class MapService {
         let maxLen = 0;
         let maxCoordinates: any;
         let maxIndex = 0;
+        let finalDistance = 0;
 
-        
+        if (i == chunks.features.length - 1) {
+          finalDistance = turf.length(await this.getRouteWithPoints([chunk[0], chunk[chunk.length - 1]]));
+        }
+
         for (let j = 0; j < stationsFarEnd.length; j++) {
           let station = stationsFarEnd[j]['AddressInfo'];
           var pt = turf.point(
@@ -90,16 +94,19 @@ export class MapService {
             maxIndex = j;
           }
         }
-        var pt = turf.point(
-          maxCoordinates,
-          {
-            orderTime: Date.now(),
-            key: Math.random()
-          }
-        );
-        stations.splice(maxIndex, 1);
-        usedStations.push(pt);
-        waypoints.push(maxCoordinates);
+        if (finalDistance >= maxLen || i != chunks.features.length - 1) {
+          var pt = turf.point(
+            maxCoordinates,
+            {
+              orderTime: Date.now(),
+              key: Math.random()
+            }
+          );
+          stations.splice(maxIndex, 1);
+          usedStations.push(pt);
+          waypoints.push(maxCoordinates);
+        }
+        
       }
       waypoints.push(to);
       console.log(waypoints);
