@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 import { route } from '../classes';
+import { RestService } from '../http.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -22,10 +23,10 @@ export class SideNavComponent implements OnInit {
   firstCity: Location;
   secondCity: Location;
   home: boolean = true;
-
+  routes : route[];
   events: string[] = [];
   opened: boolean = true;
-  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router ) {
+  constructor(fb: FormBuilder, private amplifyService: AmplifyService, private loginService: LoginService, private router: Router, private rest: RestService ) {
     this.options = fb.group({
       bottom: 0,
       fixed: false,
@@ -34,32 +35,17 @@ export class SideNavComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.rest.get('mihai').subscribe(e => {
+      this.routes = this.rest.getRoutesFromString(e['routes']);
+      console.log(this.routes);
+    });
 
     this.zoom = 10;
     this.latitude = 52.520008;
     this.longitude = 13.404954;
-    
-    //this.setCurrentPosition();
 
   }
 
-  routes : route[] = [
-    {
-      start: "Pitesti",
-      end: "Bucuresti",
-      path: ""
-    },
-    {
-      start: "Pitesti",
-      end: "Bucuresti",
-      path: ""
-    },
-    {
-      start: "Pitesti",
-      end: "Bucuresti",
-      path: ""
-    }
-]
   goHome() {
     this.home = true;
   }

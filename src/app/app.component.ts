@@ -9,11 +9,6 @@ import { RestService } from './http.service';
 })
 export class AppComponent {
   title = 'hackITall2018';
-   constructor (private rest: RestService) {
-    rest.get('/mihai');
-     let j = {
-       "routes": "[{string, string, string}]"
-     };
-     rest.put( j, '/cosmin');
-   }
+  constructor (private rest: RestService) {
+  }
 }

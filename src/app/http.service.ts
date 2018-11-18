@@ -11,14 +11,10 @@ import { first } from 'rxjs/operators';
 export class RestService {
 
   constructor(private http : HttpClient) { }
-
+  routes: route[];
   get(id = '') {
     //routes: route[];
-    this.http.get('https://3voxctner5.execute-api.eu-west-1.amazonaws.com/hack' + id).subscribe(
-          e => {
-            console.log(e);
-            return e;
-          });
+    return this.http.get('https://3voxctner5.execute-api.eu-west-1.amazonaws.com/hack/' + id);
   }
   put(body: any, id = '') {
     let requestOptions = new RequestOptions({ headers:null, withCredentials: 
