@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
-import { VoiceListenerService } from '../voice-listener.service';
-import { ChattingService } from '../chatting.service';
+import { RestService } from '../http.service';
+import { route } from '../classes';
 
 @Component({
   selector: 'app-home',
@@ -11,21 +11,23 @@ import { ChattingService } from '../chatting.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private loginService : LoginService, private router: Router, private _voiceService: VoiceListenerService, private _chattingService: ChattingService) { }
+  constructor(private loginService : LoginService, private router: Router, private rest: RestService) { }
 
   ngOnInit() {
+    var routes : route[];
+    routes = this.rest.getRoutesFromString('asa#da#ba%ok1#ok2#ok3');
+    for(let x of routes){
+      console.log("start: ", x.start, " end: ", x.end, " path: ", x.path);
+    }
+
+    var x = this.rest.getStringFromRoutes(routes);
+
+    console.log("text is: " + x);
+
     this.loginService.stateObservable.subscribe(e => {
       //console.log(e);
       if (e === false)
         this.router.navigate(['login']);
     });
-
-    this._chattingService.activate_listener();
-    this._chattingService.finishedCommand.subscribe(cmd => console.log(cmd));
   }
-
-  stopVoice() {
-    this._voiceService.stopRecognition();
-  }
-
 }
