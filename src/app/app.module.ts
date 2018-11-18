@@ -13,8 +13,6 @@ import { LoginComponent } from './login/login.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
-import { HistoryComponent } from './history/history.component';
-import { HistoryNavComponent } from './history-nav/history-nav.component';
 import { RoutesComponent } from './routes/routes.component';
 import { MapComponent } from './map/map.component';
 import { MapService } from './map.service';
@@ -26,8 +24,6 @@ import { ChattingService } from './chatting.service';
     HomeComponent,
     LoginComponent,
     SideNavComponent,
-    HistoryComponent,
-    HistoryNavComponent,
     RoutesComponent,
     MapComponent,
   ],

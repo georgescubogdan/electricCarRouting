@@ -14,6 +14,5 @@ export class HomeComponent implements OnInit {
   constructor(private loginService : LoginService, private router: Router, private rest: RestService) { }
 
   ngOnInit() {
-    
   }
 }
