@@ -73,6 +73,19 @@ export class SideNavComponent implements OnInit {
           //this.fromPlace = cmd.from + '\n';
           // console.log(cmd.to);
           break;
+        case 'logout':
+          this.signOut();
+          break;
+        case 'salvare':
+          this.save();
+          break;
+        case 'acasa':
+          this.goHome();
+          break;
+        case 'istoric':
+          this.goHistory();
+          break;
+
       }
     });
     //this.setCurrentPosition();
@@ -119,6 +132,7 @@ export class SideNavComponent implements OnInit {
     this.amplifyService.auth().signOut();
     this.loginService.signedIn = false;
     this.loginService.user = null;
+    this.router.navigate(["login"]);
   }
 
   valueHours = '';
