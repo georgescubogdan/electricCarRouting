@@ -85,12 +85,50 @@ export class SideNavComponent implements OnInit {
         case 'istoric':
           this.goHistory();
           break;
-
+          // case "maps.hotels_nearby":
+          // if(cmd.params['raza'] === '') {
+          //   cmd.params['raza'] = 1000;
+          // } else {
+          //   cmd.params['raza'] = cmd.params['raza'] * 1000;
+          // }
+          // console.log(cmd.params['raza']);
+          // this.getPlaces(cmd.params['raza'], "lodging");
+          // this._chattingService.talkLoud(`Se încarcă hotelurile pe o rază de ${cmd.params['raza']} de metri.`);
+          // break;
       }
     });
     //this.setCurrentPosition();
 
   }
+
+  // markers: marker[] = [];
+  // places: Array<any> = [];
+  
+  // getPlacesX(lat, lng, radius, type){
+  //   return this._http.get(this.baseUrl + 'GetNearbyPlaces/' + lat + "/" + lng + "/" + radius + "/" + type)
+  //   .map((response: Response) =>response.json())
+  //   .catch(this._errorHandler);
+  // }
+
+  // getPlaces(radius, type) {
+  //   this.markers = [];
+  //   this.getPlacesX(this.latitude, this.longitude, radius, type).subscribe(
+  //     data => { 
+  //       this.places = data;
+  //       this.places.forEach(elem => {
+  //         console.log(elem);
+  //         this.markers.push({
+  //           lat: elem.lat,
+  //           lng: elem.lng
+  //         });
+  //       });
+  //     },
+  //     error => { debugger;
+  //      console.log(error);
+  //     }
+      
+  //   )
+  // }
 
   goHome() {
     this.home = true;
@@ -191,4 +229,10 @@ export class SideNavComponent implements OnInit {
     console.log(stringifiedRoutes);
     this.rest.put({"routes":stringifiedRoutes}, 'bogdan');
   }
+}
+
+interface marker {
+	lat: any;
+	lng: any;
+	label?: string;
 }
